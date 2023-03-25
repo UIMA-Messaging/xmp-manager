@@ -1,4 +1,4 @@
-﻿namespace XmpManager.EventBus.Publishers
+﻿namespace XmpManager.EventBus.RabbitMQ
 {
     public interface IRabbitMQPublisher<T>
     {

@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 using System.Diagnostics;
 using System.Text;
 
-namespace XmpManager.EventBus.Publishers
+namespace XmpManager.EventBus.RabbitMQ
 {
     public class RabbitMQPublisher<T> : IRabbitMQPublisher<T>
     {

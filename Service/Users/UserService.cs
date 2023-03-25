@@ -18,7 +18,10 @@ namespace XmpManager.Service.Users
         {
             Debug.WriteLine("Registering user...");
             Debug.WriteLine(JsonConvert.SerializeObject(user));
-            client.RegisterUser(user.Username, user.Id);
+            if (user != null)
+            {
+                client.RegisterUser(user.Username, user.Id);
+            }
         }
 
         public async Task UnregisterNewUser(User user)

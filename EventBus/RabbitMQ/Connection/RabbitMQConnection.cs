@@ -1,14 +1,14 @@
 ﻿using RabbitMQ.Client;
 
-namespace XmpManager.EventBus.Connection
+namespace XmpManager.EventBus.RabbitMQ.Connection
 {
-    public class RabbitMQConnction : IRabbitMQConnection
+    public class RabbitMQConnection : IRabbitMQConnection
     {
         private readonly IConnectionFactory factory;
 
-        public RabbitMQConnction(string host)
+        public RabbitMQConnection(string host)
         {
-            this.factory = new ConnectionFactory() {  HostName= host };
+            factory = new ConnectionFactory() { HostName = host };
         }
 
         public IConnection TryConnect()

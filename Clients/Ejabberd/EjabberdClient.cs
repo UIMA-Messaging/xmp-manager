@@ -1,4 +1,4 @@
-﻿using XmpManager.Clients.Models;
+﻿using XmpManager.Clients.Ejabberd.Models;
 
 namespace XmpManager.Clients.Ejabberd
 {

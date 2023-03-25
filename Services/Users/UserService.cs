@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using XmpManager.Clients;
 using XmpManager.Contracts;
+using XmpManager.EventBus;
 
 namespace XmpManager.Service.Users
 {
@@ -9,18 +10,19 @@ namespace XmpManager.Service.Users
     {
         private readonly EjabberdClient client;
 
-        public UserService() 
+        public UserService(IRabbitMQListener<User> userRegistrations, EjabberdClient client) 
         {
-            this.client = new EjabberdClient();
+            this.client = client;
+
+            userRegistrations.OnReceive += (_, user) => RegisterNewUser(user);
         }
 
         public async Task RegisterNewUser(User user)
         {
-            Debug.WriteLine("Registering user...");
             Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
             {
-                client.RegisterUser(user.Username, user.Id);
+                await client.RegisterUser(user.Username, user.Id);
             }
         }
 

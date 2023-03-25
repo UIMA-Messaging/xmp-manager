@@ -4,7 +4,7 @@ using RabbitMQ.Client.Events;
 using System.Diagnostics;
 using System.Text;
 
-namespace XmpManager.EventBus.RabbitMQ
+namespace XmpManager.EventBus
 {
     public class RabbitMQListener<T> : IRabbitMQListener<T>
     {

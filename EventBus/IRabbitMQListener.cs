@@ -1,4 +1,4 @@
-﻿namespace XmpManager.EventBus.RabbitMQ
+﻿namespace XmpManager.EventBus
 {
     public interface IRabbitMQListener<T>
     {

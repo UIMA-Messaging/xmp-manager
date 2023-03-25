@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
-using XmpManager.Clients;
+using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
 using XmpManager.EventBus;
 

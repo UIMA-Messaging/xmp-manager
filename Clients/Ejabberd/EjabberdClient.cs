@@ -1,6 +1,6 @@
 ﻿using XmpManager.Clients.Models;
 
-namespace XmpManager.Clients
+namespace XmpManager.Clients.Ejabberd
 {
     public class EjabberdClient
     {
@@ -13,7 +13,7 @@ namespace XmpManager.Clients
         {
             this.baseUrl = new Uri(baseUrl);
             this.host = host;
-            this.client = new HttpClient();
+            client = new HttpClient();
             this.service = service;
         }
 
@@ -49,7 +49,7 @@ namespace XmpManager.Clients
             {
                 Name = room,
                 Service = service,
-                Reason = $"Chat with {jids.Length -1} others",
+                Reason = $"Chat with {jids.Length - 1} others",
                 Users = string.Join(':', jids)
             };
             await client.PostAsync(url.ToString(), JsonContent.Create(setAffiliation));

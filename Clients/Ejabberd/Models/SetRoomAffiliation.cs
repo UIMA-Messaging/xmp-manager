@@ -1,4 +1,4 @@
-﻿namespace XmpManager.Clients.Models
+﻿namespace XmpManager.Clients.Ejabberd.Models
 {
     public class SetRoomAffiliation
     {

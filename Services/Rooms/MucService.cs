@@ -1,4 +1,4 @@
-﻿using XmpManager.Clients;
+﻿using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
 using XmpManager.EventBus;
 

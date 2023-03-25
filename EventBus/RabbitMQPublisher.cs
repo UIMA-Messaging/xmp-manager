@@ -31,7 +31,7 @@ namespace XmpManager.EventBus
                 channel.BasicPublish(exchange, key, properties, body);
             }
 
-            Debug.WriteLine($" [x] Sent '{message}' to '{routingKeys}'");
+            Debug.WriteLine($" [x] Sent '{message}' to '{string.Join(", ", routingKeys)}'");
         }
     }
 }

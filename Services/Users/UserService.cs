@@ -13,11 +13,10 @@ namespace XmpManager.Service.Users
         public UserService(IRabbitMQListener<User> userRegistrations, EjabberdClient client) 
         {
             this.client = client;
-
-            userRegistrations.OnReceive += (_, user) => RegisterNewUser(user);
+            userRegistrations.OnReceive += (_, user) => RegisterUser(user);
         }
 
-        public async Task RegisterNewUser(User user)
+        public async Task RegisterUser(User user)
         {
             Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
@@ -26,7 +25,7 @@ namespace XmpManager.Service.Users
             }
         }
 
-        public async Task UnregisterNewUser(User user)
+        public async Task UnregisterUser(User user)
         {
             await client.UnregisterUser(user.Username);
         }

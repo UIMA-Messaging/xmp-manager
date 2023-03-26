@@ -21,7 +21,7 @@ namespace XmpManager.Service.Users
             Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
             {
-                await client.RegisterUser(user.Username, user.Id);
+                await client.RegisterUser(user.Username, user.EphemeralPassword);
             }
         }
 

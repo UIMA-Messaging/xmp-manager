@@ -1,6 +1,7 @@
-﻿using XmpManager.Clients.Models;
+﻿using Newtonsoft.Json;
+using System.Net;
 
-namespace XmpManager.Clients
+namespace XmpManager.Clients.Ejabberd
 {
     public class EjabberdClient
     {
@@ -9,73 +10,81 @@ namespace XmpManager.Clients
         private readonly string service;
         private readonly HttpClient client;
 
-        public EjabberdClient(string baseUrl = "https://localhost:5443", string host = "localhost", string service = "conference.localhost")
+        public EjabberdClient(string baseUrl = "https://localhost:5443", string host = "localhost", string service = "localhost", string adminUsername = "admin", string adminPassword = "admin")
         {
             this.baseUrl = new Uri(baseUrl);
             this.host = host;
-            this.client = new HttpClient();
             this.service = service;
+            var clientHandler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(adminUsername, adminPassword),
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            };
+            this.client = new HttpClient(clientHandler);
         }
 
         public async Task CreateMuc(string name)
         {
             var url = new Uri(baseUrl, "/api/create_room_with_opts");
-            var createMuc = new CreateMucWithOptions
+            var createMuc = new
             {
-                Name = name,
-                Host = host,
-                Service = service,
-                Options = new Options()
+                name = name,
+                host = host,
+                service = service,
+                pptions = new
+                {
+                    name = "members_only"
+                }
             };
-            await client.PostAsync(url.ToString(), JsonContent.Create(createMuc));
+            await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(createMuc)));
         }
 
         public async Task SetAffiliance(string room, params string[] jids)
         {
             var url = new Uri(baseUrl, "/api/set_room_affiliation");
-            var setAffiliation = new SetRoomAffiliation
+            var setAffiliation = new
             {
-                Name = room,
-                Service = service,
-                Jid = string.Join(':', jids)
+                name = room,
+                service = service,
+                jid = string.Join(':', jids)
             };
-            await client.PostAsync(url.ToString(), JsonContent.Create(setAffiliation));
+            await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(setAffiliation)));
         }
 
         public async Task SendDirectInvitations(string room, params string[] jids)
         {
             var url = new Uri(baseUrl, "/api/set_room_affiliation");
-            var setAffiliation = new SendDirectInvitation
+            var setAffiliation = new
             {
-                Name = room,
-                Service = service,
-                Reason = $"Chat with {jids.Length -1} others",
-                Users = string.Join(':', jids)
+                name = room,
+                service = service,
+                reason = $"Chat with {jids.Length - 1} others",
+                users = string.Join(':', jids)
             };
-            await client.PostAsync(url.ToString(), JsonContent.Create(setAffiliation));
+            await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(setAffiliation)));
         }
 
         public async Task RegisterUser(string username, string password)
         {
             var url = new Uri(baseUrl, "/api/register");
-            var registerUser = new RegisterUser
+            var registerUser = new
             {
-                User = username,
-                Password = password,
-                Host = host
+                user = username,
+                password = password,
+                host = host
             };
-            await client.PostAsync(url.ToString(), JsonContent.Create(registerUser));
+            await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(registerUser)));
         }
 
         public async Task UnregisterUser(string username)
         {
             var url = new Uri(baseUrl, "/api/unregister");
-            var unregisterUser = new RegisterUser
+            var unregisterUser = new
             {
-                User = username,
-                Host = host
+                user = username,
+                host = host
             };
-            await client.PostAsync(url.ToString(), JsonContent.Create(unregisterUser));
+            await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(unregisterUser)));
         }
     }
 }

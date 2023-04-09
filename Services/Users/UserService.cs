@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
-using XmpManager.Clients;
+using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
+using XmpManager.EventBus;
 
 namespace XmpManager.Service.Users
 {
@@ -9,22 +10,22 @@ namespace XmpManager.Service.Users
     {
         private readonly EjabberdClient client;
 
-        public UserService() 
+        public UserService(IRabbitMQListener<User> userRegistrations, EjabberdClient client) 
         {
-            this.client = new EjabberdClient();
+            this.client = client;
+            userRegistrations.OnReceive += (_, user) => RegisterUser(user);
         }
 
-        public async Task RegisterNewUser(User user)
+        public async Task RegisterUser(User user)
         {
-            Debug.WriteLine("Registering user...");
             Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
             {
-                client.RegisterUser(user.Username, user.Id);
+                await client.RegisterUser(user.Username, user.EphemeralPassword);
             }
         }
 
-        public async Task UnregisterNewUser(User user)
+        public async Task UnregisterUser(User user)
         {
             await client.UnregisterUser(user.Username);
         }

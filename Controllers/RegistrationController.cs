@@ -17,7 +17,7 @@ namespace XmpManager.Controllers
         [Route("register")]
         public IActionResult Register()
         {
-            this.service.RegisterNewUser(null);
+            this.service.RegisterUser(null);
             return Ok();
         }
 

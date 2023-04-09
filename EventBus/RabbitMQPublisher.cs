@@ -3,14 +3,14 @@ using RabbitMQ.Client;
 using System.Diagnostics;
 using System.Text;
 
-namespace XmpManager.EventBus.RabbitMQ
+namespace XmpManager.EventBus
 {
     public class RabbitMQPublisher<T> : IRabbitMQPublisher<T>
     {
         private readonly IModel channel;
         private readonly string exchange;
 
-        public RabbitMQPublisher(string exchange, IConnection connection)
+        public RabbitMQPublisher(IConnection connection, string exchange)
         {
             channel = connection.CreateModel();
             this.exchange = exchange;
@@ -31,7 +31,7 @@ namespace XmpManager.EventBus.RabbitMQ
                 channel.BasicPublish(exchange, key, properties, body);
             }
 
-            Debug.WriteLine($" [x] Sent '{message}' to '{routingKeys}'");
+            Debug.WriteLine($" [x] Sent '{message}' to '{string.Join(", ", routingKeys)}'");
         }
     }
 }

@@ -1,7 +1,7 @@
 using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
-using XmpManager.EventBus;
-using XmpManager.EventBus.Connection;
+using XmpManager.RabbitMQ;
+using XmpManager.RabbitMQ.Connection;
 using XmpManager.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,10 +17,13 @@ builder.Services.AddSingleton(_ => new EjabberdClient());
 builder.Services.AddTransient<IUserService>(i => new UserService(i.GetRequiredService<IRabbitMQListener<User>>(), i.GetRequiredService<EjabberdClient>()));
 
 // RabbitMQ
-var rabbitMQConnection = new RabbitMQConnection("localhost").TryConnect();
-
-// RabbitMQ - Subscriptions
-builder.Services.AddSingleton<IRabbitMQListener<User>>(i => new RabbitMQListener<User>(rabbitMQConnection, "registrations", "registrations", "users.new"));
+//var rabbitMQConnection = new RabbitMQConnection(builder.Configuration["RabbitMQ:Uri"]);
+var rabbitMQConnection = new RabbitMQConnection("localhost");
+builder.Services.AddSingleton<IRabbitMQListener<User>>(i => new RabbitMQListener<User>(
+    rabbitMQConnection, 
+    "xmp.users.account", 
+    builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], 
+    builder.Configuration["RabbitMQ:UserRegistrations:RoutingKey"]));
 
 var app = builder.Build();
 

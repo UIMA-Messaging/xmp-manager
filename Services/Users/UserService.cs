@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
-using XmpManager.EventBus;
+using XmpManager.RabbitMQ;
 
 namespace XmpManager.Service.Users
 {

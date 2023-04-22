@@ -1,6 +1,5 @@
 ﻿using XmpManager.Clients.Ejabberd;
 using XmpManager.Contracts;
-using XmpManager.EventBus;
 
 namespace XmpManager.Service.Rooms
 {

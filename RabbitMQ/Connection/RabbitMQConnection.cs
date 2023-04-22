@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace XmpManager.EventBus.Connection
+namespace XmpManager.RabbitMQ.Connection
 {
     public class RabbitMQConnection : IRabbitMQConnection
     {

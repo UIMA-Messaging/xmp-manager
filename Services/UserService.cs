@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
-using XmpManager.Clients.Ejabberd;
+using XmpManager.Clients;
 using XmpManager.Contracts;
 using XmpManager.RabbitMQ;
 
-namespace XmpManager.Service.Users
+namespace XmpManager.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly EjabberdClient client;
 

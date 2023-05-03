@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 
-namespace XmpManager.Clients.Ejabberd
+namespace XmpManager.Clients
 {
     public class EjabberdClient
     {

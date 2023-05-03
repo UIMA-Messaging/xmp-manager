@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using XmpManager.Service.Users;
+using XmpManager.Services;
 
 namespace XmpManager.Controllers
 {
     [Route("registeration")]
     public class RegistrationController : Controller
     {
-        private readonly IUserService service;
+        private readonly UserService service;
 
-        public RegistrationController(IUserService service) 
+        public RegistrationController(UserService service) 
         {
             this.service = service;
         }

@@ -1,9 +1,9 @@
-﻿using XmpManager.Clients.Ejabberd;
+﻿using XmpManager.Clients;
 using XmpManager.Contracts;
 
-namespace XmpManager.Service.Rooms
+namespace XmpManager.Services
 {
-    public class MucService : IMucService
+    public class MucService
     {
         private readonly EjabberdClient client;
 

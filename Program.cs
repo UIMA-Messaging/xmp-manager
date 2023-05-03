@@ -1,8 +1,8 @@
-using XmpManager.Clients.Ejabberd;
+using XmpManager.Clients;
 using XmpManager.Contracts;
 using XmpManager.RabbitMQ;
 using XmpManager.RabbitMQ.Connection;
-using XmpManager.Service.Users;
+using XmpManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,21 +14,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(_ => new EjabberdClient());
 
 // Services 
-builder.Services.AddTransient<IUserService>(i => new UserService(i.GetRequiredService<IRabbitMQListener<User>>(), i.GetRequiredService<EjabberdClient>()));
+builder.Services.AddTransient(i => new UserService(i.GetRequiredService<IRabbitMQListener<User>>(), i.GetRequiredService<EjabberdClient>()));
 
 // RabbitMQ
-//var rabbitMQConnection = new RabbitMQConnection(builder.Configuration["RabbitMQ:Uri"]);
-var rabbitMQConnection = new RabbitMQConnection("localhost");
-builder.Services.AddSingleton<IRabbitMQListener<User>>(i => new RabbitMQListener<User>(
-    rabbitMQConnection, 
-    "xmp.users.account", 
-    builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], 
-    builder.Configuration["RabbitMQ:UserRegistrations:RoutingKey"]));
+var rabbitMqConnection = new RabbitMQConnection(builder.Configuration["RabbitMQ:Uri"]);
+builder.Services.AddSingleton<IRabbitMQListener<User>>(i => new RabbitMQListener<User>(rabbitMqConnection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:RoutingKey"]));
 
 var app = builder.Build();
 
 // Singleton instantiations
-app.Services.GetService<IUserService>();
+app.Services.GetService<UserService>();
 
 if (app.Environment.IsDevelopment())
 {

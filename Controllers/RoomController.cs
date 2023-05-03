@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XmpManager.Contracts;
-using XmpManager.Service.Rooms;
+using XmpManager.Services;
 
 namespace XmpManager.Controllers
 {
     [Route("rooms")]
     public class RoomController : Controller
     {
-        private readonly IMucService service;
+        private readonly MucService service;
 
-        public RoomController(IMucService service) 
+        public RoomController(MucService service) 
         {
             this.service = service;
         }

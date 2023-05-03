@@ -1,5 +1,6 @@
 using XmpManager.Clients;
 using XmpManager.Contracts;
+using XmpManager.Middlewares;
 using XmpManager.RabbitMQ;
 using XmpManager.RabbitMQ.Connection;
 using XmpManager.Services;
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<HttpExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

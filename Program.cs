@@ -1,3 +1,4 @@
+using Bugsnag;
 using XmpManager.Clients;
 using XmpManager.Contracts;
 using XmpManager.Middlewares;
@@ -10,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Bugsnag
+builder.Services.AddSingleton<IClient>(_ => new Client(builder.Configuration["Bugsnag:ApiKey"]));
 
 // Clients
 builder.Services.AddSingleton(_ => new EjabberdClient());

@@ -76,12 +76,12 @@ namespace XmpManager.Clients
             await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(registerUser)));
         }
 
-        public async Task UnregisterUser(string username)
+        public async Task UnregisterUser(string id)
         {
             var url = new Uri(baseUrl, "/api/unregister");
             var unregisterUser = new
             {
-                user = username,
+                user = id,
                 host = host
             };
             await client.PostAsync(url.ToString(), new StringContent(JsonConvert.SerializeObject(unregisterUser)));

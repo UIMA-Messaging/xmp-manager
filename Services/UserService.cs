@@ -18,16 +18,15 @@ namespace XmpManager.Services
 
         public async Task RegisterUser(User user)
         {
-            Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
             {
                 await client.RegisterUser(user.Username, user.EphemeralPassword);
             }
         }
 
-        public async Task UnregisterUser(User user)
+        public async Task UnregisterUser(string id)
         {
-            await client.UnregisterUser(user.Username);
+            await client.UnregisterUser(id);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace XmpManager.Clients
         private readonly string service;
         private readonly HttpClient client;
 
-        public EjabberdClient(string baseUrl = "https://localhost:5443", string host = "localhost", string service = "localhost", string adminUsername = "admin", string adminPassword = "admin")
+        public EjabberdClient(string baseUrl, string host, string service, string adminUsername, string adminPassword)
         {
             this.baseUrl = new Uri(baseUrl);
             this.host = host;

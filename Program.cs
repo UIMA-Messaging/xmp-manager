@@ -21,7 +21,7 @@ builder.Services.AddSingleton(_ => new EjabberdClient(builder.Configuration["Eja
 // RabbitMQ
 var connection = new RabbitMQConnection(builder.Configuration["RabbitMQ:Host"], builder.Configuration["RabbitMQ:Username"], builder.Configuration["RabbitMQ:Password"]);
 var registrations = new RabbitMQListener<User>(connection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:RegistrationsRoutingKey"]);
-var unregistrations = new RabbitMQListener<User>(connection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:UnregistrationsKeysRoutingKey"]);
+var unregistrations = new RabbitMQListener<User>(connection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:UnregistrationsRoutingKey"]);
 
 // Services 
 builder.Services.AddTransient(i => new MucService(i.GetRequiredService<EjabberdClient>()));

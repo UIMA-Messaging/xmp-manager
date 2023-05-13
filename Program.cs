@@ -16,15 +16,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IClient>(_ => new Client(builder.Configuration["Bugsnag:ApiKey"]));
 
 // Clients
-builder.Services.AddSingleton(_ => new EjabberdClient(builder.Configuration["RabbitMQ:BaseUrl"], builder.Configuration["RabbitMQ:Host"], builder.Configuration["RabbitMQ:Service"], builder.Configuration["RabbitMQ:Username"], builder.Configuration["RabbitMQ:Password"]));
+builder.Services.AddSingleton(_ => new EjabberdClient(builder.Configuration["Ejabberd:BaseUrl"], builder.Configuration["Ejabberd:Host"], builder.Configuration["Ejabberd:Service"], builder.Configuration["Ejabberd:Username"], builder.Configuration["Ejabberd:Password"]));
+
+// RabbitMQ
+var connection = new RabbitMQConnection(builder.Configuration["RabbitMQ:Host"], builder.Configuration["RabbitMQ:Username"], builder.Configuration["RabbitMQ:Password"]);
+var registrations = new RabbitMQListener<User>(connection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:RegistrationsRoutingKey"]);
+var unregistrations = new RabbitMQListener<User>(connection, "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:UnregistrationsKeysRoutingKey"]);
 
 // Services 
 builder.Services.AddTransient(i => new MucService(i.GetRequiredService<EjabberdClient>()));
-builder.Services.AddTransient(i => new UserService(i.GetRequiredService<IRabbitMQListener<User>>(), i.GetRequiredService<EjabberdClient>()));
-
-// RabbitMQ
-builder.Services.AddSingleton<IRabbitMQConnection>(_ => new RabbitMQConnection(builder.Configuration["RabbitMQ:Host"], builder.Configuration["RabbitMQ:Username"], builder.Configuration["RabbitMQ:Password"]));
-builder.Services.AddSingleton<IRabbitMQListener<User>>(s => new RabbitMQListener<User>(s.GetRequiredService<IRabbitMQConnection>(), "xmp.users.account", builder.Configuration["RabbitMQ:UserRegistrations:Exchange"], builder.Configuration["RabbitMQ:UserRegistrations:RoutingKey"]));
+builder.Services.AddTransient(i => new UserService(i.GetRequiredService<EjabberdClient>(), registrations, unregistrations));
 
 var app = builder.Build();
 

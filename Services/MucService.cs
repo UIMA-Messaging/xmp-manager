@@ -7,9 +7,9 @@ namespace XmpManager.Services
     {
         private readonly EjabberdClient client;
 
-        public MucService()
+        public MucService(EjabberdClient client)
         {
-            client = new EjabberdClient();
+            this.client = client;
         }
 
         public async Task CreateMuc(Channel channel)

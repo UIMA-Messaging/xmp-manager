@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IClient>(_ => new Client(builder.Configuration["Bugsnag:ApiKey"]));
 
 // Clients
-builder.Services.AddSingleton(_ => new EjabberdClient(builder.Configuration["RabbitMQ:BaseUrl"], builder.Configuration["RabbitMQ:Host"], builder.Configuration["RabbitMQ:Service"], builder.Configuration["RabbitMQ:Username"], builder.Configuration["RabbitMQ:Password"]));
+builder.Services.AddSingleton(_ => new EjabberdClient(builder.Configuration["Ejabberd:BaseUrl"], builder.Configuration["Ejabberd:Host"], builder.Configuration["Ejabberd:Service"], builder.Configuration["Ejabberd:Username"], builder.Configuration["Ejabberd:Password"]));
 
 // Services 
 builder.Services.AddTransient(i => new MucService(i.GetRequiredService<EjabberdClient>()));

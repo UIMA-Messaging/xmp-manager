@@ -17,5 +17,10 @@ namespace XmpManager.Services
             await client.CreateMuc(channel.Name);
             await client.SendDirectInvitations(channel.Name);
         }
+
+        internal async Task RemoveMuc(string id)
+        {
+            await client.DeleteMuc(id);
+        }
     }
 }

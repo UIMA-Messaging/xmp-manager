@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Diagnostics;
-using XmpManager.Clients;
+﻿using XmpManager.Clients;
 using XmpManager.Contracts;
 using XmpManager.RabbitMQ;
 
@@ -10,24 +8,27 @@ namespace XmpManager.Services
     {
         private readonly EjabberdClient client;
 
-        public UserService(IRabbitMQListener<User> userRegistrations, EjabberdClient client) 
+        public UserService(EjabberdClient client, IRabbitMQListener<User> userRegistrations, IRabbitMQListener<User> userUnregistrations) 
         {
             this.client = client;
             userRegistrations.OnReceive += (_, user) => RegisterUser(user);
+            userUnregistrations.OnReceive += (_, user) => UnregisterUser(user.Username);
         }
 
         public async Task RegisterUser(User user)
         {
-            Debug.WriteLine(JsonConvert.SerializeObject(user));
             if (user != null)
             {
                 await client.RegisterUser(user.Username, user.EphemeralPassword);
             }
         }
 
-        public async Task UnregisterUser(User user)
+        public async Task UnregisterUser(string id)
         {
-            await client.UnregisterUser(user.Username);
+            if (!string.IsNullOrEmpty(id))
+            {
+                await client.UnregisterUser(id);
+            }
         }
     }
 }

@@ -14,11 +14,18 @@ namespace XmpManager.Controllers
             this.service = service;
         }
 
-        [HttpPost]
-        [Route("create")]
-        public async Task CreateRoom([FromBody] Channel channel)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateRoom([FromBody] Channel channel)
         {
             await service.CreateMuc(channel);
+            return Ok();
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteRoom(string id)
+        {
+            await service.RemoveMuc(id);
+            return Ok();
         }
     }
 }

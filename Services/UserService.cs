@@ -8,7 +8,7 @@ namespace XmpManager.Services
     {
         private readonly EjabberdClient client;
 
-        public UserService(EjabberdClient client, IRabbitMQListener<User> unregistrations, IRabbitMQListener<User> registrations) 
+        public UserService(EjabberdClient client, IRabbitMQListener<User> registrations, IRabbitMQListener<User> unregistrations) 
         {
             this.client = client;
             unregistrations.OnReceive += (_, user) => UnregisterUser(user.Username);

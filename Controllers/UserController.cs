@@ -17,14 +17,14 @@ namespace XmpManager.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] User user)
         {
-            await this.service.RegisterUser(user);
+            await service.RegisterUser(user);
             return Ok();
         }
 
-        [HttpDelete("unregister/{id}")]
-        public async Task<IActionResult> Unregister(string id)
+        [HttpDelete("unregister/{username}")]
+        public async Task<IActionResult> Unregister(string username)
         {
-            await this.service.UnregisterUser(id);
+            await service.UnregisterUser(username);
             return Ok();
         }
     }

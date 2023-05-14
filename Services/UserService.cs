@@ -8,11 +8,11 @@ namespace XmpManager.Services
     {
         private readonly EjabberdClient client;
 
-        public UserService(EjabberdClient client, IRabbitMQListener<User> userRegistrations, IRabbitMQListener<User> userUnregistrations) 
+        public UserService(EjabberdClient client, IRabbitMQListener<User> unregistrations, IRabbitMQListener<User> registrations) 
         {
             this.client = client;
-            userRegistrations.OnReceive += (_, user) => RegisterUser(user);
-            userUnregistrations.OnReceive += (_, user) => UnregisterUser(user.Username);
+            unregistrations.OnReceive += (_, user) => UnregisterUser(user);
+            registrations.OnReceive += (_, user) => RegisterUser(user);
         }
 
         public async Task RegisterUser(User user)
@@ -23,11 +23,11 @@ namespace XmpManager.Services
             }
         }
 
-        public async Task UnregisterUser(string id)
+        public async Task UnregisterUser(User user)
         {
-            if (!string.IsNullOrEmpty(id))
+            if (user != null)
             {
-                await client.UnregisterUser(id);
+                await client.UnregisterUser(user.Username);
             }
         }
     }

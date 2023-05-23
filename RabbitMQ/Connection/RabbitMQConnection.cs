@@ -34,10 +34,8 @@ namespace XmpManager.RabbitMQ.Connection
                 {
                     return factory.CreateConnection();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine("Got exception on TryConnect() " + ex.Message);
-
                     retries++;
                     if (retries == retryCount) throw;
                     Thread.Sleep((int)Math.Pow(retries, 2) * (500 + new Random().Next(500)));

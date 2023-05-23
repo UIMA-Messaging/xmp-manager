@@ -36,7 +36,7 @@ namespace XmpManager.RabbitMQ.Connection
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Got exception on TryConnect() " + ex.Message);
+                    Console.WriteLine("Got exception on TryConnect() " + ex.Message);
 
                     retries++;
                     if (retries == retryCount) throw;

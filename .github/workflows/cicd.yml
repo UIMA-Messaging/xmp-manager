@@ -59,7 +59,7 @@ jobs:
 #           kubectl create configmap env-configmap --from-literal=env.js=${{ secrets.ENV_SECRETS }}
 
       - name: Deploy application
-        run: kubectl apply -f k8s/deployment.yaml
+        run: kubectl apply -f k8s/deployment.yml
 
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-deployment

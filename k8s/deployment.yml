@@ -78,15 +78,3 @@ spec:
                 secretKeyRef:
                   name: xmp-manager-secrets
                   key: ejabberd-password
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: xmp-manager-service
-spec:
-  selector:
-    app: xmp-manager-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80

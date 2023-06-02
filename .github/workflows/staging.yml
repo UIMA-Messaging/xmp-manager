@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Staging Pipeline
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: dockeroo80/uima-xmp-manager
-          tags: latest
+          tags: staging
           registry: docker.io
           dockerfile: Dockerfile
           username: dockeroo80
@@ -51,15 +51,10 @@ jobs:
         run: |
           mkdir ~/.kube
           touch ~/.kube/config
-          echo "${{ secrets.AKS_CONTEXT }}" >> ~/.kube/config
-
-#       - name: Create secrets
-#         run: |
-#           kubectl delete configmap env-configmap --ignore-not-found
-#           kubectl create configmap env-configmap --from-literal=env.js=${{ secrets.ENV_SECRETS }}
+          echo "${{ secrets.STAGING_AKS_CONTEXT }}" >> ~/.kube/config
 
       - name: Deploy application
-        run: kubectl apply -f k8s/deployment.yml
+        run: kubectl apply -f k8s/staging-deployment.yml
 
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-app

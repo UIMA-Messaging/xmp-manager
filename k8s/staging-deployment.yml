@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xmp-manager-app
+spec:
+  selector:
+    matchLabels:
+      app: xmp-manager-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: xmp-manager-app
+    spec:
+      containers:
+        - name: xmp-manager
+          image: dockeroo80/uima-xmp-manager:staging
+          ports:
+            - containerPort: 80
+          env:
+            - name: Bugsnag__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: xmp-manager-secrets
+                  key: bugsnag-api-key
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: xmp-manager-secrets
+                  key: rabbitmq-username
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: xmp-manager-secrets
+                  key: rabbitmq-password
+            - name: RabbitMQ__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: rabbitmq-host
+            - name: RabbitMQ__UserRegistrations__Exchange
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: rabbitmq-userregistrations-exchange
+            - name: RabbitMQ__UserRegistrations__RegistrationsRoutingKey
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: rabbitmq-userregistrations-registrations-routingkey
+            - name: RabbitMQ__UserRegistrations__UnregistrationsRoutingKey
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: rabbitmq-userregistrations-unregistrations-routingkey
+            - name: Ejabberd__BaseUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: ejabberd-base-url
+            - name: Ejabberd__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: ejabberd-host
+            - name: Ejabberd__Service
+              valueFrom:
+                configMapKeyRef:
+                  name: xmp-manager-configs
+                  key: ejabberd-service
+            - name: Ejabberd__Username
+              valueFrom:
+                secretKeyRef:
+                  name: xmp-manager-secrets
+                  key: ejabberd-username
+            - name: Ejabberd__Password
+              valueFrom:
+                secretKeyRef:
+                  name: xmp-manager-secrets
+                  key: ejabberd-password

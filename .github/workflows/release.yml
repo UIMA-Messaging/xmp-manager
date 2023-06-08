@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Echo release tag
         run: |
-          echo "Tag: ${{ github.ref.replace('refs/tags/', '') }}"
+          echo "Tag: ${{ github.ref_name }}"
 
   build:
     runs-on: ubuntu-latest

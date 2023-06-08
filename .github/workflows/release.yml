@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Echo release tag
         run: |
-          echo "Tag: ${{ github.ref/.efs.tags }}"
+          echo "Tag: ${{ github.ref.refs.tags }}"
 
   build:
     runs-on: ubuntu-latest

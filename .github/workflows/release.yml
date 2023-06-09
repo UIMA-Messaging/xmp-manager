@@ -22,20 +22,19 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --verbosity normal
 
-#   regression-tests:
-#     needs: build
+  regression-tests:
+    needs: build
 
-#     runs-on: ubuntu-latest
-#     steps:
-#         - name: Run Cucumber Regression
-#           uses: greffgreff/run-java-tests-action@1.0
-#           with:
-#             repo: https://github.com/UIMA-Messaging/uima-test-suite.git
-#             branch: master
+    runs-on: ubuntu-latest
+    steps:
+        - name: Run Cucumber Regression
+          uses: greffgreff/run-java-tests-action@1.0
+          with:
+            repo: https://github.com/UIMA-Messaging/uima-test-suite.git
+            branch: master
   
   docker:
-#     needs: regression-tests
-    needs: build
+    needs: regression-tests
     
     runs-on: ubuntu-latest
     steps:
@@ -58,16 +57,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Generate kube configuration
         run: |
           mkdir ~/.kube
           touch ~/.kube/config
           echo "${{ secrets.AKS_CONTEXT }}" >> ~/.kube/config
-
       - name: Deploy application
         run: |
           sed -e 's|IMAGE_TAG|${{ github.ref_name }}|g' k8s/deployment.yml | kubectl apply -f -
-
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-app

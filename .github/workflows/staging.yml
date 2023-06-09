@@ -6,6 +6,13 @@ on:
       - master
       
 jobs:
+  echo: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo ref
+        run: |
+          echo ${{ github.event.pull_request.head.ref }}
+      
   build:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +40,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: dockeroo80/uima-xmp-manager
-          tags: ${{ github.ref_name }}
+          tags: ${{ github.event.pull_request.head.ref }}
           registry: docker.io
           dockerfile: Dockerfile
           username: dockeroo80
@@ -53,6 +60,6 @@ jobs:
           echo "${{ secrets.STAGING_AKS_CONTEXT }}" >> ~/.kube/config
       - name: Deploy application
         run: |
-          sed -e 's|IMAGE_TAG|${{ github.ref_name }}|g' k8s/deployment.yml | kubectl apply -f -
+          sed -e 's|IMAGE_TAG|${{ github.event.pull_request.head.ref }}|g' k8s/deployment.yml | kubectl apply -f -
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-app

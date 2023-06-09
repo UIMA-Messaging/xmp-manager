@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: echo ref
         run: |
-          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.base_ref }}
       
   build:
     runs-on: ubuntu-latest

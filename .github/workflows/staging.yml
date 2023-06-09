@@ -1,18 +1,18 @@
 name: Staging Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - master
       
-jobs:
-  echo: 
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo ref
-        run: |
-          echo ${{ github.event.pull_request.base.ref }}
-          
+jobs: 
+    echo:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Echo
+          run: |
+            echo ${{ github.head_ref#refs/heads/ }}
 #   build:
 #     runs-on: ubuntu-latest
 #     steps:
@@ -40,7 +40,7 @@ jobs:
 #         uses: mr-smithers-excellent/docker-build-push@v6
 #         with:
 #           image: dockeroo80/uima-xmp-manager
-#           tags: ${{ github.event.pull_request.head.ref }}
+#           tags: ${{ github.head_ref }}
 #           registry: docker.io
 #           dockerfile: Dockerfile
 #           username: dockeroo80
@@ -60,6 +60,6 @@ jobs:
 #           echo "${{ secrets.STAGING_AKS_CONTEXT }}" >> ~/.kube/config
 #       - name: Deploy application
 #         run: |
-#           sed -e 's|IMAGE_TAG|${{ github.event.pull_request.head.ref }}|g' k8s/deployment.yml | kubectl apply -f -
+#           sed -e 's|IMAGE_TAG|${{ github.head_ref }}|g' k8s/deployment.yml | kubectl apply -f -
 #       - name: Restart pod
 #         run: kubectl rollout restart deploy xmp-manager-app

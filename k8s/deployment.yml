@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: xmp-manager
-          image: dockeroo80/uima-xmp-manager
+          image: dockeroo80/uima-xmp-manager:IMAGE_TAG
           ports:
             - containerPort: 80
           env:

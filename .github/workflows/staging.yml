@@ -35,7 +35,7 @@ jobs:
         with:
           image: dockeroo80/uima-xmp-manager
           tags: |
-            echo ${{ github.head_ref }} | sed 's/\//./'
+            echo dev.${{ github.head_ref }}
           registry: docker.io
           dockerfile: Dockerfile
           username: dockeroo80
@@ -55,6 +55,6 @@ jobs:
           echo "${{ secrets.STAGING_AKS_CONTEXT }}" >> ~/.kube/config
       - name: Deploy application
         run: |
-          sed -e "s|IMAGE_TAG|$(${{ github.head_ref }} | sed 's/\//./')|g" k8s/deployment.yml | kubectl apply -f -
+          sed -e "s|IMAGE_TAG|dev.${{ github.head_ref }}|g" k8s/deployment.yml | kubectl apply -f -
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-app

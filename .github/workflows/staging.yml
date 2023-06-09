@@ -6,13 +6,13 @@ on:
       - master
       
 jobs: 
-    echo:
-      runs-on: ubuntu-latest
-
-      steps:
-        - name: Echo
-          run: |
-            echo ${{ github.head_ref#refs/heads/ }}
+  echo:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Echo
+        run: |
+          echo ${{ github.head_ref#refs/heads/ }}
             
 #   build:
 #     runs-on: ubuntu-latest

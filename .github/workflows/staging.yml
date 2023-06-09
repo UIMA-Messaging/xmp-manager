@@ -34,8 +34,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: dockeroo80/uima-xmp-manager
-          tags: |
-            echo dev.${GITHUB_HEAD_REF}
+          tags: dev.${GITHUB_HEAD_REF}
           registry: docker.io
           dockerfile: Dockerfile
           username: dockeroo80

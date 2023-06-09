@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Echo
         run: |
-          echo ${GITHUB_REF##*/}
+          echo ${GITHUB_HEAD_REF##*/}
             
 #   build:
 #     runs-on: ubuntu-latest

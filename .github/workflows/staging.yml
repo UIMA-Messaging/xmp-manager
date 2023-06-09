@@ -53,6 +53,6 @@ jobs:
           echo "${{ secrets.STAGING_AKS_CONTEXT }}" >> ~/.kube/config
       - name: Deploy application
         run: |
-          sed -e "s|IMAGE_TAG|(echo ${GITHUB_HEAD_REF##*/})|g" k8s/deployment.yml | kubectl apply -f -
+          sed -e "s|IMAGE_TAG|$(echo ${GITHUB_HEAD_REF##*/})|g" k8s/deployment.yml | kubectl apply -f -
       - name: Restart pod
         run: kubectl rollout restart deploy xmp-manager-app

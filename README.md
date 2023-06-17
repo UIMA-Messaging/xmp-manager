@@ -72,4 +72,4 @@ This subscription is responsible to removing an jabber account from the database
 }
 ```
 
-Please see the Registration Service for more information regarding the event bus messages [here](https://github.com/UIMA-Messaging/registration-service).
+> Please see the Registration Service for more information regarding the event bus messages [here](https://github.com/UIMA-Messaging/registration-service).
